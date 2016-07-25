@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int updateUser(String userId) {
+    public int updateUser(UserModel user) {
         return 0;
     }
 

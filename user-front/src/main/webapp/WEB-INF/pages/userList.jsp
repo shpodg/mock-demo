@@ -13,9 +13,14 @@
 </head>
 <body>
     <c:if test="${users != null}">
+        <table border="1" cellspacing="0">
         <c:forEach items="${users}" var="user">
-            <a href="/user/${user.id}">${user.name}</a>
+            <tr>
+            <td><a href="user/${user.id}">${user.name}</a> </td><td><a href="user/${user.id}/edit">edit</a> </td>
+            </tr>
         </c:forEach>
+            <tr><td colspan="2"><a href="/user/new">new</a> </td> </tr>
+        </table>
     </c:if>
 </body>
 </html>
