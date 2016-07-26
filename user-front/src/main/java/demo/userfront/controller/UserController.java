@@ -1,8 +1,7 @@
 package demo.userfront.controller;
 
-import demo.userfront.model.UserModel;
-import demo.userfront.service.UserService;
 import demo.userfront.vo.UserVo;
+import demo.userfront.service.UserService;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.InitializingBean;
@@ -54,13 +53,13 @@ public class UserController implements InitializingBean{
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public String updateUser(UserModel user){
+    public String updateUser(UserVo user){
         userService.updateUser(user);
         return "redirect:user/"+user.getId();
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public String createUser(UserModel user){
+    public String createUser(UserVo user){
         userService.createUser(user);
         return "redirect:user/"+user.getId();
     }
@@ -87,7 +86,7 @@ public class UserController implements InitializingBean{
         when(userService.getUser("2")).thenReturn(ls);
 
         when(userService.createUser(anyObject())).then(invocation -> {
-            UserModel args = invocation.getArgumentAt(0, UserModel.class);
+            UserVo args = invocation.getArgumentAt(0, UserVo.class);
             args.setId("1");
             System.out.println(args);
             return 1;
@@ -95,7 +94,7 @@ public class UserController implements InitializingBean{
         when(userService.updateUser(anyObject())).then(new Answer<Object>() {
             @Override
             public Object answer(InvocationOnMock invocation) throws Throwable {
-                UserModel args = invocation.getArgumentAt(0, UserModel.class);
+                UserVo args = invocation.getArgumentAt(0, UserVo.class);
                 System.out.println(args);
                 return 1;
             }

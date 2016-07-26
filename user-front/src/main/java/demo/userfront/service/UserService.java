@@ -1,6 +1,5 @@
 package demo.userfront.service;
 
-import demo.userfront.model.UserModel;
 import demo.userfront.vo.UserVo;
 
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
  */
 public interface UserService {
     UserVo getUser(String userId);
-    int updateUser(UserModel user);
-    int createUser(UserModel user);
+    int updateUser(UserVo user);
+    int createUser(UserVo user);
     List<UserVo> getUsers();
 }
