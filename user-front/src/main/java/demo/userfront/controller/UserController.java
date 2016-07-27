@@ -26,6 +26,11 @@ public class UserController implements InitializingBean{
     @Autowired
     UserService userService;
 
+    /**
+     * 获取用户列表
+     * @param model
+     * @return
+     */
     @RequestMapping(method = RequestMethod.GET)
     public String getUsers(ModelMap model){
         List<UserVo> users = userService.getUsers();
@@ -33,6 +38,12 @@ public class UserController implements InitializingBean{
         return "userList";
     }
 
+    /**
+     * 获取单个用户详细页面
+     * @param userId
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/{userId}",method = RequestMethod.GET)
     public String getUser(@PathVariable String userId, ModelMap model){
         UserVo user = userService.getUser(userId);
@@ -40,11 +51,21 @@ public class UserController implements InitializingBean{
         return "userDtail";
     }
 
+    /**
+     * 创建新用户页面
+     * @return
+     */
     @RequestMapping(path = "/new")
     public String newUser(){
         return "userUpdateOrCreate";
     }
 
+    /**
+     * 编辑某个用户页面
+     * @param userId
+     * @param model
+     * @return
+     */
     @RequestMapping(path = "/{userId}/edit")
     public String editUser(@PathVariable String userId,ModelMap model){
         UserVo user = userService.getUser(userId);
@@ -52,12 +73,22 @@ public class UserController implements InitializingBean{
         return "userUpdateOrCreate";
     }
 
+    /**
+     * 提交更新用户信息跳转用户详细信息页面
+     * @param user
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST)
     public String updateUser(UserVo user){
         userService.updateUser(user);
         return "redirect:user/"+user.getId();
     }
 
+    /**
+     * 提交创建用户跳转用户详细信息页面
+     * @param user
+     * @return
+     */
     @RequestMapping(method = RequestMethod.PUT)
     public String createUser(UserVo user){
         userService.createUser(user);

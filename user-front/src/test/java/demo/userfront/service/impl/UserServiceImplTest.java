@@ -1,6 +1,7 @@
 package demo.userfront.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import demo.userfront.BaseTest;
 import demo.userfront.util.HttpUtils;
 import demo.userfront.vo.ResponseStatus;
 import demo.userfront.vo.UserVo;
@@ -8,13 +9,10 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +27,7 @@ import static org.mockito.Mockito.when;
  * @version 1.0
  */
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/applicationContext.xml")
-public class UserServiceImplTest {
+public class UserServiceImplTest extends BaseTest {
 
     @InjectMocks
     @Autowired
