@@ -1,10 +1,10 @@
 package demo.userfront.controller;
 
-import demo.userfront.vo.UserVo;
 import demo.userfront.service.UserService;
+import demo.userfront.vo.UserVo;
+import org.apache.log4j.Logger;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,9 +22,10 @@ import static org.mockito.Mockito.*;
  */
 @Controller
 @RequestMapping("/user")
-public class UserController implements InitializingBean{
+public class UserController{// implements InitializingBean{
     @Autowired
     UserService userService;
+    private Logger logger = Logger.getLogger(getClass());
 
     /**
      * 获取用户列表
@@ -78,8 +79,9 @@ public class UserController implements InitializingBean{
      * @param user
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.PUT)
     public String updateUser(UserVo user){
+        logger.info("updateUser "+user);
         userService.updateUser(user);
         return "redirect:user/"+user.getId();
     }
@@ -89,12 +91,13 @@ public class UserController implements InitializingBean{
      * @param user
      * @return
      */
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(method = RequestMethod.POST)
     public String createUser(UserVo user){
-        userService.createUser(user);
-        return "redirect:user/"+user.getId();
+        logger.info("createUser" + user);
+        String location = userService.createUser(user);
+        return "redirect:"+location;
     }
-    @Override
+
     public void afterPropertiesSet() throws Exception {
 
         userService = mock(UserService.class);

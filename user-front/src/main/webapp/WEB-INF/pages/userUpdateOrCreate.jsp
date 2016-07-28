@@ -20,11 +20,11 @@
         <tr><td>userSex</td><td><input name="sex" value="${user.sex}" /></td></tr>
         <tr><td colspan="2">
             <c:if test="${user.id == null}">
-            <input type="hidden" name="_method" value="put">
             <input type="submit" value="create"/>
             </c:if>
             <c:if test="${user.id != null}">
-            <input type="submit" value="update"/>
+                <input type="hidden" name="_method" value="put">
+                <input type="submit" value="update"/>
             </c:if>
         </td></tr>
     </table>

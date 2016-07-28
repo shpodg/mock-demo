@@ -1,9 +1,6 @@
 package demo.userfront.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import demo.userfront.BaseTest;
-import demo.userfront.util.HttpUtils;
-import demo.userfront.vo.ResponseStatus;
 import demo.userfront.vo.UserVo;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,10 +10,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import static demo.userfront.service.impl.UserServiceImpl.USER_SERVICE_URL;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -32,10 +32,9 @@ public class UserServiceImplTest extends BaseTest {
     @InjectMocks
     @Autowired
     UserServiceImpl userService;
+
     @Mock
-    HttpUtils httpUtils;
-    @Autowired
-    ObjectMapper objectMapper;
+    RestTemplate restTemplate;
 
     @Before
     public void before() throws Exception {
@@ -54,10 +53,10 @@ public class UserServiceImplTest extends BaseTest {
     public void testGetUser() throws Exception {
         UserVo zs = getUserVo();
 
-        when(httpUtils.get(userService.USER_SERVICE_URL+"/"+zs.getId())).thenReturn(objectMapper.writeValueAsString(zs));
+        when(restTemplate.getForObject(USER_SERVICE_URL+"/{id}",UserVo.class,zs.getId())).thenReturn(zs);
         UserVo user = userService.getUser(zs.getId());
         Assert.assertEquals(zs,user);
-        verify(httpUtils).get(userService.USER_SERVICE_URL+"/"+zs.getId());
+        verify(restTemplate).getForObject(USER_SERVICE_URL+"/{id}",UserVo.class,zs.getId());
 
     }
 
@@ -76,9 +75,8 @@ public class UserServiceImplTest extends BaseTest {
     @Test
     public void testUpdateUser() throws Exception {
         UserVo zs = getUserVo();
-        when(httpUtils.post(UserServiceImpl.USER_SERVICE_URL,zs)).thenReturn(objectMapper.writeValueAsString(ResponseStatus.STATUS_OK));
         userService.updateUser(zs);
-        verify(httpUtils).post(UserServiceImpl.USER_SERVICE_URL,zs);
+        verify(restTemplate).put(USER_SERVICE_URL,zs);
     }
 
     /**
@@ -87,9 +85,9 @@ public class UserServiceImplTest extends BaseTest {
     @Test
     public void testCreateUser() throws Exception {
         UserVo zs = getUserVo();
-        when(httpUtils.put(UserServiceImpl.USER_SERVICE_URL,zs)).thenReturn(objectMapper.writeValueAsString(ResponseStatus.STATUS_OK));
+        when(restTemplate.postForLocation(USER_SERVICE_URL, zs)).thenReturn(URI.create("/user/"+zs.getId()));
         userService.createUser(zs);
-        verify(httpUtils).put(UserServiceImpl.USER_SERVICE_URL,zs);
+        verify(restTemplate).postForLocation(USER_SERVICE_URL, zs);
     }
 
     /**
@@ -100,9 +98,9 @@ public class UserServiceImplTest extends BaseTest {
         List<UserVo> mockUsers = new ArrayList<>();
         mockUsers.add(getUserVo());
         mockUsers.add(getUserVo());
-        when(httpUtils.get(userService.USER_SERVICE_URL)).thenReturn(objectMapper.writeValueAsString(mockUsers));
+        when(restTemplate.getForObject(USER_SERVICE_URL,List.class)).thenReturn(mockUsers);
         List<UserVo> users = userService.getUsers();
-        verify(httpUtils).get(userService.USER_SERVICE_URL);
+        verify(restTemplate).getForObject(USER_SERVICE_URL,List.class);
         //System.out.println(users);
         Assert.assertEquals(mockUsers,users);
     }

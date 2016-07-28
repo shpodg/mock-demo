@@ -11,9 +11,6 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
 
-    <bean class="demo.userfront.util.HttpUtils"/>
-    <bean class="com.fasterxml.jackson.databind.ObjectMapper"/>
-
     <bean id="userService" class="org.mockito.Mockito" factory-method="mock">
         <constructor-arg value="demo.userfront.service.UserService"/>
     </bean>

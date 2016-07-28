@@ -3,12 +3,21 @@ package demo.userservice.vo;
 /**
  * Created by oneday on 2016/7/22 0022.
  */
-public enum ResponseStatus {
-    STATUS_OK("ok"),
-    STATUS_ERROR("error");
+public class ResponseStatus {
+    public static ResponseStatus STATUS_OK = new ResponseStatus("ok");
+    public static ResponseStatus STATUS_ERROR= new ResponseStatus("error");
 
-    ResponseStatus(String status){
+    public ResponseStatus(String status){
         this.status = status;
     }
+    public ResponseStatus(){}
     private String status;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
+    }
 }
