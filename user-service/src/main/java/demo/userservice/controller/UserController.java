@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +44,11 @@ public class UserController {//implements InitializingBean {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<ResponseStatus> createUser(@RequestBody UserModel user){
-        ResponseEntity<ResponseStatus> resp = new ResponseEntity<ResponseStatus>(ResponseStatus.STATUS_OK,HttpStatus.OK);
-        logger.info("新增用户 :" + user);
         userService.createUser(user);
-        resp.getHeaders().setLocation(URI.create("/user/"+user.getId()));
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(URI.create("/user/"+user.getId()));
+        ResponseEntity<ResponseStatus> resp = new ResponseEntity<ResponseStatus>(ResponseStatus.STATUS_OK,headers,HttpStatus.CREATED);
+        logger.info("新增用户 :" + user);
         return resp;
     }
 
