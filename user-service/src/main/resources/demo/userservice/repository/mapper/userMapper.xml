@@ -60,16 +60,16 @@
     update user
     <set>
       <if test="name != null">
-        name ='#{name}',
+        name =#{name,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
-        age =#{age},
+        age =#{age,jdbcType=INTEGER},
       </if>
       <if test="sex != null">
-        sex ='#{sex}',
+        sex =#{sex,jdbcType=VARCHAR},
       </if>
     </set>
-    where id =#{id}
+    where id =#{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="demo.userservice.model.UserModel" >
     update user

@@ -72,7 +72,8 @@ public class UserRepositoryTest {
     @Test
     public void testUpdateByPrimaryKeySelective() throws Exception {
         record2.setAge(1);
-        userRepository.updateByPrimaryKeySelective(record2);
+        int i = userRepository.updateByPrimaryKeySelective(record2);
+        System.out.println(i);
     }
 
     /**

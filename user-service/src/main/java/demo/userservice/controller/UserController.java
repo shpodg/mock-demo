@@ -6,7 +6,6 @@ import demo.userservice.vo.ResponseStatus;
 import org.apache.log4j.Logger;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +24,13 @@ import static org.mockito.Mockito.when;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController implements InitializingBean {
+public class UserController {//implements InitializingBean {
     @Autowired
     UserService userService;
     private Logger logger = Logger.getLogger(getClass());
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public UserModel getUserById(@PathVariable String userId){
+    public UserModel getUserById(@PathVariable int userId){
         return userService.getUserById(userId);
     }
 
@@ -56,31 +55,31 @@ public class UserController implements InitializingBean {
         return userService.getUsers();
     }
 
-    @Override
+    //@Override
     public void afterPropertiesSet() throws Exception {
 
         userService = mock(UserService.class);
 
         List<UserModel> users = new ArrayList<>();
         UserModel zs = new UserModel();
-        zs.setId("1");
+        zs.setId(1);
         zs.setName("张三");
         zs.setAge(10);
         zs.setSex("男");
         users.add(zs);
         UserModel ls = new UserModel();
-        ls.setId("2");
+        ls.setId(2);
         ls.setName("李四");
         ls.setAge(20);
         ls.setSex("女");
         users.add(ls);
         when(userService.getUsers()).thenReturn(users);
-        when(userService.getUserById("1")).thenReturn(zs);
-        when(userService.getUserById("2")).thenReturn(ls);
+        when(userService.getUserById(1)).thenReturn(zs);
+        when(userService.getUserById(2)).thenReturn(ls);
 
         when(userService.createUser(anyObject())).then(invocation -> {
             UserModel args = invocation.getArgumentAt(0, UserModel.class);
-            args.setId("1");
+            args.setId(1);
             System.out.println("put:" + args);
             return 1;
         });
