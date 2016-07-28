@@ -10,6 +10,6 @@ import java.util.List;
 public interface UserService {
     UserVo getUser(String userId);
     int updateUser(UserVo user);
-    int createUser(UserVo user);
+    String createUser(UserVo user);
     List<UserVo> getUsers();
 }

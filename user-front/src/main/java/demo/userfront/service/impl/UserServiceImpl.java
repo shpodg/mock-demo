@@ -1,16 +1,12 @@
 package demo.userfront.service.impl;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import demo.userfront.exception.BusinessException;
 import demo.userfront.service.UserService;
-import demo.userfront.util.HttpUtils;
-import demo.userfront.vo.ResponseStatus;
 import demo.userfront.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -20,51 +16,26 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     public static final String USER_SERVICE_URL="http://localhost:8081/user";
     @Autowired
-    HttpUtils httpUtils;
-    @Autowired
-    ObjectMapper objectMapper;
-
+    RestTemplate restTemplate;
     @Override
     public UserVo getUser(String userId) {
-        String result = httpUtils.get(USER_SERVICE_URL+"/"+userId);
-        try {
-            UserVo userVo = objectMapper.readValue(result, UserVo.class);
-            return userVo;
-        } catch (IOException e) {
-            throw new BusinessException(e.getMessage());
-        }
+        return restTemplate.getForObject(USER_SERVICE_URL+"/{id}",UserVo.class,userId);
     }
 
     @Override
     public int updateUser(UserVo user) {
-        String result = httpUtils.post(USER_SERVICE_URL,user);
-        try {
-            ResponseStatus responseStatus = objectMapper.readValue(result,ResponseStatus.class);
-        } catch (IOException e) {
-            throw new BusinessException(e.getMessage());
-        }
+        restTemplate.put(USER_SERVICE_URL,user);
         return 0;
     }
 
     @Override
-    public int createUser(UserVo user) {
-        String result = httpUtils.put(USER_SERVICE_URL,user);
-        try {
-            ResponseStatus responseStatus = objectMapper.readValue(result,ResponseStatus.class);
-        } catch (IOException e) {
-            throw new BusinessException(e.getMessage());
-        }
-        return 0;
+    public String createUser(UserVo user) {
+        URI location = restTemplate.postForLocation(USER_SERVICE_URL, user);
+        return location.toString();
     }
 
     @Override
     public List<UserVo> getUsers() {
-        String result = httpUtils.get(USER_SERVICE_URL);
-        try {
-            List<UserVo> users = objectMapper.readValue(result,new TypeReference<List<UserVo>>(){});
-            return users;
-        }catch (Exception e){
-            throw new BusinessException(e.getMessage());
-        }
+        return restTemplate.getForObject(USER_SERVICE_URL,List.class);
     }
 }
