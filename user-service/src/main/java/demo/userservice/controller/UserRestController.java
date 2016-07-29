@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
  */
 @RestController
 @RequestMapping("/user")
-public class UserController {//implements InitializingBean {
+public class UserRestController {//implements InitializingBean {
     @Autowired
     UserService userService;
     private Logger logger = Logger.getLogger(getClass());
