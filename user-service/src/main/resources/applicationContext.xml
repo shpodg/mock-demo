@@ -12,10 +12,9 @@
     <context:property-placeholder location="classpath:/dataSource.properties"/>
 
     <context:annotation-config/>
-    <context:component-scan base-package="demo.userservice.**.service">
+
+    <context:component-scan base-package="demo.userservice.**.service,demo.userservice.**.repository">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
-    </context:component-scan>
-    <context:component-scan base-package="demo.userservice.**.repository">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
 
