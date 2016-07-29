@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,7 +81,7 @@ public class UserController{// implements InitializingBean{
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public String updateUser(UserVo user){
+    public String updateUser(@Valid UserVo user){
         logger.info("updateUser "+user);
         userService.updateUser(user);
         return "redirect:user/"+user.getId();
@@ -92,7 +93,7 @@ public class UserController{// implements InitializingBean{
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public String createUser(UserVo user){
+    public String createUser(@Valid UserVo user){
         logger.info("createUser" + user);
         String location = userService.createUser(user);
         return "redirect:"+location;

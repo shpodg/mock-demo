@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
  * @version 1.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
+@WebAppConfiguration("src/main/webapp")
 @ContextHierarchy({
         @ContextConfiguration(name = "parent", locations = "classpath:/testApplicationContext.xml"),
         @ContextConfiguration(name = "child",locations = "file:src/main/webapp/WEB-INF/dispatcher-servlet.xml")
@@ -40,6 +40,15 @@ public class UserControllerTest {
     @Autowired
     UserService userService;
     private MockMvc mockMvc;
+
+    /**
+     * 完整模拟springMVC环境
+     * 1、测试类需要指定 @WebAppConfiguration 默认web root 为 src/main/webapp
+     * 2、@ContextHierarchy：指定容器层次
+     * 3、通过@Autowired WebApplicationContext ：注入web环境的ApplicationContext容器
+     * 4、然后通过MockMvcBuilders.webAppContextSetup(wac).build()创建一个MockMvc进行测试
+     * @throws Exception
+     */
     @Before
     public void before() throws Exception {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
@@ -75,10 +84,9 @@ public class UserControllerTest {
         when(userService.getUser("1")).thenReturn(zs);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/user/1"))
                 .andExpect(MockMvcResultMatchers.view().name("userDtail"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("user"))
+                .andExpect(MockMvcResultMatchers.model().attribute("user",zs))
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
-        System.out.println(result.getModelAndView().getView());
     }
 
     /**

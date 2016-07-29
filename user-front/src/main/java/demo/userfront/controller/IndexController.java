@@ -1,7 +1,9 @@
 package demo.userfront.controller;
 
 import demo.userfront.exception.BusinessException;
+import demo.userfront.service.UserService;
 import demo.userfront.vo.ResponseStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class IndexController {
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping("/")
     public String index(){
+        userService.getUser("1");
         return "index";
     }
 

@@ -1,6 +1,5 @@
 package demo.userfront.service.impl;
 
-import demo.userfront.BaseTest;
 import demo.userfront.vo.UserVo;
 import org.junit.After;
 import org.junit.Assert;
