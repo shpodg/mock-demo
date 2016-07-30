@@ -33,8 +33,11 @@ public class IndexControllerTest{
     /**
      * standaloneSetup 方式创建单独的Controller环境，
      * 首先自己创建相应的控制器，注入相应的依赖
+     * 这种测试更接近于单元测试，运行更快，并且不包含任何在xml里面配置过的组件
+     * 因为没有Servlet容器，所以不会进行jsp渲染
      * spring github 官方示例
      * https://github.com/spring-projects/spring-framework/tree/master/spring-test/src/test/java/org/springframework/test/web/servlet/samples
+     * https://github.com/spring-projects/spring-mvc-showcase
      * @throws Exception
      */
     @Before

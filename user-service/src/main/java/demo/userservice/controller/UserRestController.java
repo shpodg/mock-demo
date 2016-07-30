@@ -31,8 +31,12 @@ public class UserRestController {//implements InitializingBean {
     private Logger logger = Logger.getLogger(getClass());
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public UserModel getUserById(@PathVariable int userId){
-        return userService.getUserById(userId);
+    public ResponseEntity<?> getUserById(@PathVariable int userId){
+        UserModel userModel = userService.getUserById(userId);
+        if (userModel == null) {
+            return new ResponseEntity<ResponseStatus>(new ResponseStatus(userId+" is not found"), HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<UserModel>(userModel,HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.PUT)

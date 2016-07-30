@@ -57,6 +57,19 @@ public class UserRestControllerTest extends AbstractWebApplicationTest {
     }
 
     /**
+     * test getUserById return404
+     * @throws Exception
+     */
+    @Test
+    public void testGetUserById404() throws Exception {
+        //这里需要重新生成mockMvc
+        // 因为alwaysExpect(status().is2xxSuccessful())不能被重写
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        mockMvc.perform(get("/user/{userId}",0))
+                .andExpect(status().isNotFound());
+    }
+
+    /**
      * Method: updateUser(@RequestBody UserModel user)
      */
     @Test

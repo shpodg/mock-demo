@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * UserController Tester.
- *
+ * mock隔离测试
  * @author <Authors name>
  * @version 1.0
  */
@@ -72,7 +72,7 @@ public class UserControllerTest {
      */
     @Test
     public void testGetUsers() throws Exception {
-//TODO: Test goes here... 
+//TODO: Test goes here...
     }
 
     /**
