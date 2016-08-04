@@ -30,6 +30,11 @@ public class MockTest {
 
     @Mock List mockedList;
 
+    /**
+     * 使用注解方式
+     * @Mock 用来设定mock对象
+     * MockitoAnnotations.initMocks(this); 处理本类的注解
+     */
     @Test
     public void test0(){
         mockedList.add(1);
@@ -250,5 +255,19 @@ public class MockTest {
         //optionally, you can verify
         verify(spy).add("one");
         verify(spy).add("two");
+    }
+
+    /**
+     * 处理参数类型匹配
+     * isA()
+     */
+    @Test
+    public void test9(){
+        List mockList = mock(List.class);
+        when(mockList.add(isA(Integer.class))).thenReturn(true);
+
+        boolean v = mockList.add(new Float(1));
+        System.out.println(v);
+        verify(mockList).add(isA(Integer.class));
     }
 }
