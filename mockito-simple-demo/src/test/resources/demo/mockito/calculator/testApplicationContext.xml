@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="demo.mockito.calculator"/>
+
+    <!-- 使用Mockito的静态方法mock 作为工厂方法生成Adder接口和Suber接口的mock对象 -->
+    <bean class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="demo.mockito.calculator.Adder"/>
+    </bean>
+    <bean class="org.mockito.Mockito" factory-method="mock">
+        <constructor-arg value="demo.mockito.calculator.Suber"/>
+    </bean>
+</beans>
