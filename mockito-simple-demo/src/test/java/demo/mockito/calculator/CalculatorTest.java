@@ -1,11 +1,9 @@
 package demo.mockito.calculator;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,7 +16,7 @@ import static org.mockito.Mockito.when;
  * Created by oneday on 2016/7/24 0024.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:demo/mockito/calculator/app.xml")
+@ContextConfiguration("classpath:demo/mockito/calculator/testApplicationContext.xml")
 public class CalculatorTest {
 
 
@@ -26,9 +24,13 @@ public class CalculatorTest {
     @Autowired
     Calculator calculator;
 
-    @Mock
+
+    /**
+     * adder和suber 为在testApplicationContext.xml中配置为mock对象
+     */
+    @Autowired
     Adder adder;
-    @Mock
+    @Autowired
     Suber suber;
 
     @Before
@@ -46,6 +48,6 @@ public class CalculatorTest {
 
         verify(adder).add("2",String.valueOf(2.0));
         verify(suber).sub("3","1");
-        System.out.println(v);
+        System.out.println("2+3-1= " + v);
     }
 }

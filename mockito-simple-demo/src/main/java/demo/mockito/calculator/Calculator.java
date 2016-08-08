@@ -20,12 +20,4 @@ public class Calculator {
         double v = suber.sub(b[0],b[1]);
         return adder.add(a[0],String.valueOf(v));
     }
-
-    public void setAdder(Adder adder) {
-        this.adder = adder;
-    }
-
-    public void setSuber(Suber suber) {
-        this.suber = suber;
-    }
 }
