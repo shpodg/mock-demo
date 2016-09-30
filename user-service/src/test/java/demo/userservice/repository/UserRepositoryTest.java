@@ -5,7 +5,9 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
@@ -18,9 +20,12 @@ import java.util.List;
  * @since <pre>07/28/2016</pre>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:/applicationContext.xml")
+@ContextConfiguration("classpath:/testApplicationContext.xml")
 @FixMethodOrder(MethodSorters.DEFAULT)
-public class UserRepositoryTest {
+public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests{
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @Autowired
     UserRepository userRepository;
@@ -44,6 +49,8 @@ public class UserRepositoryTest {
         record.setAge(30);
         record.setSex("男");
         userRepository.insert(record);
+        int n = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM USER WHERE id="+record.getId(),int.class);
+        System.out.println("n = " + n);
         Assert.assertNotNull(record.getId());
     }
 

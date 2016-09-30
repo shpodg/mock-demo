@@ -28,6 +28,7 @@ public class MockTest {
 
     }
 
+
     @Mock List mockedList;
 
     /**

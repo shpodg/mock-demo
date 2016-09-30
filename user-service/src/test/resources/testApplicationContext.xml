@@ -31,7 +31,9 @@
         <property name="username"><value>${jdbc.username}</value></property>
         <property name="password"><value>${jdbc.password}</value></property>
     </bean>
-
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource"/>
+    </bean>
     <!-- 配置sqlSessionFactory -->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
