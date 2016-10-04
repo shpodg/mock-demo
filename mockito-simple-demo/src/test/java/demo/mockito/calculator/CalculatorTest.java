@@ -1,5 +1,6 @@
 package demo.mockito.calculator;
 
+import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:demo/mockito/calculator/testApplicationContext.xml")
 public class CalculatorTest {
-
+    private static final Logger log = Logger.getLogger(CalculatorTest.class);
 
     @InjectMocks
     @Autowired
@@ -45,9 +46,8 @@ public class CalculatorTest {
         when(suber.sub("3","1")).thenReturn(2.0);
 
         double v = calculator.val("2+3-1");
-
         verify(adder).add("2",String.valueOf(2.0));
         verify(suber).sub("3","1");
-        System.out.println("2+3-1= " + v);
+        log.info("2+3-1= " + v);
     }
 }
